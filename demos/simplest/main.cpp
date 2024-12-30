@@ -29,39 +29,127 @@ freely, subject to the following restrictions:
 #include "soloud_noise.h"
 #include "soloud_thread.h"
 #include "soloud_synth.h"
+#include <conio.h> // Biblioteca para kbhit() y getch()
+#include <iostream>
+#include <windows.h>
+int main() {
+    SoLoud::Soloud soloud;
+    SoLoud::Synth synth;
 
-// Entry point
-int main(int argc, char *argv[])
-{
-	// Define a couple of variables
-	SoLoud::Soloud soloud;  // SoLoud engine core
-	SoLoud::Speech speech;  // A sound source (speech, in this case)
-	SoLoud::Noise noise;
-	SoLoud::Synth synth;
+    // Inicializa SoLoud
+    soloud.init();
 
+    int h = 0; // Manejador del sonido
+    bool isPlaying = false; // Indica si el sintetizador está sonando
+    float frequencies[8] = { 261.63f, 293.66f, 329.63f, 349.23f, 392.00f, 440.00f, 493.88f, 523.25f };
 
-	//noise.setType(SoLoud::Noise::WHITE);
-	// Configure sound source
-	//speech.setText("1 2 3   1 2 3   Hello world. Welcome to So-Loud.");
+    std::cout << "Pulsa 'q' o 'w' para cambiar la frecuencia. Pulsa 'ESC' para salir.\n";
 
-	// initialize SoLoud.
-	soloud.init();
+    while (true) {
+        if (GetAsyncKeyState('Q') & 0x8000) { // Detecta si 'q' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[0]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else if (GetAsyncKeyState('W') & 0x8000) { // Detecta si 'w' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[1]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else if (GetAsyncKeyState('E') & 0x8000) { // Detecta si 'w' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[2]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else if (GetAsyncKeyState('R') & 0x8000) { // Detecta si 'w' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[3]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else if (GetAsyncKeyState('T') & 0x8000) { // Detecta si 'w' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[4]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else if (GetAsyncKeyState('Y') & 0x8000) { // Detecta si 'w' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[5]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else if (GetAsyncKeyState('U') & 0x8000) { // Detecta si 'w' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[6]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else if (GetAsyncKeyState('I') & 0x8000) { // Detecta si 'w' está presionada
+            if (!isPlaying) {
+                synth.setFrequency(frequencies[7]);
+                h = soloud.play(synth);
+                isPlaying = true;
+            }
+        }
+        else {
+            // Si ninguna tecla relevante está presionada, detén el sonido
+            if (isPlaying) {
+                soloud.stop(h); // Detén el sintetizador
+                std::cout << "Sonido detenido\n";
+                isPlaying = false;
+            }
+        }
 
-	// Play the sound source (we could do this several times if we wanted)
-	auto h = soloud.play(synth);
+        // Salida del programa al presionar ESC
+        if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+            break;
+        }
+    }
 
-	// Wait until sounds have finished
-	//while (soloud.getActiveVoiceCount() > 0)
-	//{
-		// Still going, sleep for a bit
-		SoLoud::Thread::sleep(1000);
+    soloud.deinit(); // Libera los recursos de SoLoud
+    std::cout << "Programa terminado.\n";
 
-	//}
-		soloud.stop(h);
-
-	// Clean up SoLoud
-	soloud.deinit();
-
-	// All done.
-	return 0;
+    return 0;
 }
+// Entry point
+//int main(int argc, char *argv[])
+//{
+//	// Define a couple of variables
+//	SoLoud::Soloud soloud;  // SoLoud engine core
+//	SoLoud::Speech speech;  // A sound source (speech, in this case)
+//	SoLoud::Noise noise;
+//	SoLoud::Synth synth;
+//
+//
+//	//noise.setType(SoLoud::Noise::WHITE);
+//	// Configure sound source
+//	//speech.setText("1 2 3   1 2 3   Hello world. Welcome to So-Loud.");
+//	// initialize SoLoud.
+//	soloud.init();
+//
+//	// Play the sound source (we could do this several times if we wanted)
+//	auto h = soloud.play(synth);
+//
+//	SoLoud::Thread::sleep(1000);
+//	soloud.stop(h);
+//	synth.setFrequency(523);
+//	h = soloud.play(synth);
+//	SoLoud::Thread::sleep(1000);
+//	soloud.stop(h);
+//	// Clean up SoLoud
+//	soloud.deinit();
+//
+//	// All done.
+//	return 0;
+//}

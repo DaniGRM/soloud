@@ -35,7 +35,7 @@ namespace SoLoud
 	SynthInstance::SynthInstance(Synth* aParent)
 	{
 		mOscillator = new Osc(); // Inicializa el oscilador con una frecuencia de muestreo adecuada
-
+		mOscillator->init(aParent->freq);
 	}
 
 	SynthInstance::~SynthInstance()
@@ -62,6 +62,7 @@ namespace SoLoud
 	Synth::Synth()
 	{
 		mBaseSamplerate = 44100;
+		freq = 440.f;
 	}
 
 	Synth::~Synth()
@@ -72,6 +73,15 @@ namespace SoLoud
 	AudioSourceInstance* Synth::createInstance()
 	{
 		return new SynthInstance(this);
+	}
+
+	result Synth::setFrequency(float aFreq) {
+		if (aFreq <= 0.f || aFreq > static_cast<float>(mBaseSamplerate / 2)) {
+			return INVALID_PARAMETER;
+		}
+		freq = aFreq;
+
+		return SO_NO_ERROR;
 	}
 
 };

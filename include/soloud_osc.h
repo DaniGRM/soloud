@@ -42,7 +42,7 @@ namespace SoLoud
 		Osc();
 		~Osc();
 		result init(float aFreq);
-		result setFrequency(unsigned int aFreq);
+		result setFrequency(float aFreq);
 		float* getBlock(unsigned int size);
 
 	};

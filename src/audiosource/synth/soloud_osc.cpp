@@ -24,10 +24,11 @@ namespace SoLoud
 		delete[] mData;
 	}
 
-	result Osc::setFrequency(unsigned int aFreq) {
-		if (freq <= 0.f || freq > static_cast<float>(sampleRate / 2)) {
+	result Osc::setFrequency(float aFreq) {
+		if (aFreq <= 0 || aFreq > static_cast<float>(sampleRate / 2)) {
 			return INVALID_PARAMETER;
 		}
+		phase = 0.f;
 		freq = aFreq;
 		delta = (2 * M_PI * freq) / static_cast<float>(sampleRate);
 		return SO_NO_ERROR;
@@ -48,8 +49,6 @@ namespace SoLoud
 			if (phase >= 2 * M_PI) {
 				phase -= 2 * M_PI;
 			}
-
-
 		}
 		return mData;
 	}

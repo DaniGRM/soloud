@@ -50,11 +50,11 @@ namespace SoLoud
 	class Synth : public AudioSource
 	{
 	public:
-
+		float freq;
 		Synth();
 
 		virtual ~Synth();
-
+		result setFrequency(float aFreq);
 	public:
 		virtual AudioSourceInstance* createInstance();
 	};
