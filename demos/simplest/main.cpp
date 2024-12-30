@@ -26,7 +26,9 @@ freely, subject to the following restrictions:
 
 #include "soloud.h"
 #include "soloud_speech.h"
+#include "soloud_noise.h"
 #include "soloud_thread.h"
+#include "soloud_synth.h"
 
 // Entry point
 int main(int argc, char *argv[])
@@ -34,22 +36,28 @@ int main(int argc, char *argv[])
 	// Define a couple of variables
 	SoLoud::Soloud soloud;  // SoLoud engine core
 	SoLoud::Speech speech;  // A sound source (speech, in this case)
+	SoLoud::Noise noise;
+	SoLoud::Synth synth;
 
+
+	//noise.setType(SoLoud::Noise::WHITE);
 	// Configure sound source
-	speech.setText("1 2 3   1 2 3   Hello world. Welcome to So-Loud.");
+	//speech.setText("1 2 3   1 2 3   Hello world. Welcome to So-Loud.");
 
 	// initialize SoLoud.
 	soloud.init();
 
 	// Play the sound source (we could do this several times if we wanted)
-	soloud.play(speech);
+	auto h = soloud.play(synth);
 
 	// Wait until sounds have finished
-	while (soloud.getActiveVoiceCount() > 0)
-	{
+	//while (soloud.getActiveVoiceCount() > 0)
+	//{
 		// Still going, sleep for a bit
-		SoLoud::Thread::sleep(100);
-	}
+		SoLoud::Thread::sleep(1000);
+
+	//}
+		soloud.stop(h);
 
 	// Clean up SoLoud
 	soloud.deinit();
